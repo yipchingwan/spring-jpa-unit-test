@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
 
+import static com.oocl.web.sampleWebApp.jpaSample.AssertHelper.assertThrows;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -36,6 +37,13 @@ public class SingleEntityOperationTest {
     @Test
     public void should_not_store_to_database_if_length_exceed(){
         final SingleEntity singleEntity = new SingleEntity();
+        singleEntity.id = 1L;
+        final  String longName = "ashfhdudjfnklsdgjkldfgnmkldfmhklfmgl;hdgmfl;h,'hb,ld;f,l;fdsmgl;smklgmsdl;gmksdl;gkl;dsfmgl;dfhml;fds,h;'mfl;hmfl;hmlfdmhl;dfgl;mdl;gnsdklngklfdngkldflm;dfl;hmdfl;hmdfl;hmfld;mhl;";
+        singleEntity.name = longName;
 
+        assertThrows(Exception.class, ()->{
+           singleEntityRepository.save(singleEntity);
+           singleEntityRepository.flush();
+        });
     }
 }
